@@ -1,4 +1,4 @@
-# Clupp-tecnica
+# Clupp-prueba tecnica
 
 ## Run project : 
 - npm i 
