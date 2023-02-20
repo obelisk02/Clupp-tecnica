@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv_1 = __importDefault(require("dotenv"));
 const index_1 = __importDefault(require("./src/server/index"));
 dotenv_1.default.config();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 //Run server
 index_1.default.listen(port, () => {
     console.log(`[SERVER ON]: Runnin on port ${port}`);

@@ -1,8 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.db = void 0;
-const { initializeApp, applicationDefault, cert } = require('firebase/app');
-const { getFirestore, Timestamp, FieldValue } = require('firebase/firestore');
+const { initializeApp } = require('firebase/app');
+const { getFirestore } = require('firebase/firestore');
+const functions = require('firebase-functions');
 //const firebase = require('firebase');
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -16,8 +17,18 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 exports.db = getFirestore(app);
-//const app = initializeApp(firebaseConfig);
-//const db = getFirestore(app);
-//firebase.initializeApp(firebaseConfig);
-//const db = firebase.firestore()
+//Trigger (optional) Es de paga Firebase Functions?
+exports.updateVehicle = functions.firestore
+    .document('vehicles/{vehicleId}')
+    .onUpdate((change, context) => {
+    const newValue = change.after.data();
+    const previousValue = change.before.data();
+    if (newValue.deleted && !previousValue.deleted) {
+        const timestamp = Date.now();
+        console.log(`[Trigger - Delete /vehicle] - timestampDeleted: ${timestamp}`);
+        return change.after.ref.update({ timestampDeleted: timestamp });
+    }
+    console.log('error trigger');
+    return null;
+});
 //# sourceMappingURL=firebase_config.js.map

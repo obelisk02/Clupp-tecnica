@@ -20,8 +20,6 @@ class VehicleController {
     getAllVehicles() {
         return __awaiter(this, void 0, void 0, function* () {
             let response;
-            let vehicleArr = [];
-            let data = {};
             try {
                 const querySnapshot = yield (0, firestore_1.getDocs)((0, firestore_1.collection)(firebase_config_1.db, "vehicles"));
                 const { docs } = querySnapshot;
@@ -87,7 +85,8 @@ class VehicleController {
             try {
                 const docRef = (0, firestore_1.doc)(firebase_config_1.db, "vehicles", id);
                 yield (0, firestore_1.updateDoc)(docRef, {
-                    deleted: true
+                    deleted: true,
+                    timestampDeleted: Date.now()
                 }).then((r) => {
                     response = {
                         status: 200,

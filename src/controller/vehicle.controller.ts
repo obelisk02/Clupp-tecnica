@@ -12,17 +12,16 @@ export class VehicleController implements IVehicleController {
      */
 public async getAllVehicles(): Promise<any> {
     let response: any 
-    let vehicleArr : any []= [];
-    let data: any = {}
+    
 
     try {
     const querySnapshot = await getDocs(collection(db, "vehicles"));
        const {docs} = querySnapshot
-       const data = docs.map(data_vehicle => ({ id: data_vehicle.id, data: data_vehicle.data()}))
+       const data: any = docs.map(data_vehicle => ({ id: data_vehicle.id, data: data_vehicle.data()}))
 
-response = {
-    data
-   }
+        response = {
+             data
+            }
        
     } catch (error: any) {
         response = {
@@ -88,7 +87,8 @@ response = {
             
         const docRef = doc(db, "vehicles", id);
         await updateDoc(docRef, {
-            deleted: true
+            deleted: true,
+            timestampDeleted: Date.now()
         }).then((r) =>{
             response = {
                 status: 200,

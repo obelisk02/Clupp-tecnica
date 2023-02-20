@@ -10,6 +10,12 @@ const helmet_1 = __importDefault(require("helmet"));
 // Root routes
 const routes_1 = __importDefault(require("../routes"));
 const server = (0, express_1.default)();
+//Seguridad 
+//const DIRECTORIO_PERMITIDO_CORS = process.env.CORS || "http://localhost:3000";
+server.use((0, helmet_1.default)());
+server.use((0, cors_1.default)({
+//origin: DIRECTORIO_PERMITIDO_CORS
+}));
 //Content type config
 server.use(express_1.default.urlencoded({
     extended: true,
@@ -22,9 +28,6 @@ server.use(express_1.default.static('public'));
 // FireStore connect
 const firebase_config_1 = require("../../db/firebase_config");
 console.log(firebase_config_1.db);
-//Seguridad 
-server.use((0, helmet_1.default)());
-server.use((0, cors_1.default)());
 //Redireccionar locahost:3000 --> localhost:3000/api
 server.get('/', (req, res) => {
     res.redirect('/api');

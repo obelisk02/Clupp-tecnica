@@ -16,7 +16,7 @@ const express_1 = __importDefault(require("express"));
 const vehicle_controller_1 = require("../controller/vehicle.controller");
 let vehicleRouter = express_1.default.Router();
 vehicleRouter.route('/')
-    .get((res) => __awaiter(void 0, void 0, void 0, function* () {
+    .get((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log(`[Get /vehicle]: All vehicles`);
     const controller = new vehicle_controller_1.VehicleController();
     const response = yield controller.getAllVehicles();
@@ -26,9 +26,18 @@ vehicleRouter.route('/:id')
     .get((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     let id = (_a = req === null || req === void 0 ? void 0 : req.params) === null || _a === void 0 ? void 0 : _a.id;
+    let response;
     console.log(`[Get /vehicle]: id ${id}`);
-    const controller = new vehicle_controller_1.VehicleController();
-    const response = yield controller.getVehicle(id);
+    if (id) {
+        const controller = new vehicle_controller_1.VehicleController();
+        response = yield controller.getVehicle(id);
+    }
+    else {
+        response = {
+            status: 400,
+            message: 'Please provide an ID'
+        };
+    }
     return res.send(response);
 }))
     .delete((req, res) => __awaiter(void 0, void 0, void 0, function* () {

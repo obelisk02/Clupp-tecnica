@@ -6,11 +6,17 @@ import express, {Express, Request, Response} from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 
-
 // Root routes
 import rootRouter from '../routes'
 
 const server: Express = express();
+
+//Seguridad 
+//const DIRECTORIO_PERMITIDO_CORS = process.env.CORS || "http://localhost:3000";
+server.use(helmet());
+server.use(cors({
+    //origin: DIRECTORIO_PERMITIDO_CORS
+  }));
 
 //Content type config
 server.use(express.urlencoded({
@@ -31,9 +37,7 @@ import {db} from '../../db/firebase_config';
 console.log(db)
 
 
-//Seguridad 
-server.use(helmet());
-server.use(cors());
+
 
 
 

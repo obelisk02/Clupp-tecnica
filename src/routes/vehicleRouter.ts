@@ -7,7 +7,7 @@ let vehicleRouter = express.Router();
 
 
 vehicleRouter.route('/')
-    .get(async ( res: Response)=>{
+    .get(async ( req: Request, res: Response)=>{
 
         console.log(`[Get /vehicle]: All vehicles`);
 
@@ -15,17 +15,24 @@ vehicleRouter.route('/')
         const response: any = await  controller.getAllVehicles()
 
         return res.send(response)
-    })
+    });
 
 vehicleRouter.route('/:id')
     .get(async (req: Request, res: Response)=>{
         
         let id: any = req?.params?.id;
+        let response: any
         console.log(`[Get /vehicle]: id ${id}`);
-    
+        if (id) {
         const controller: VehicleController = new VehicleController();
-        const response: any = await  controller.getVehicle(id)
-
+         response= await  controller.getVehicle(id)
+        }
+        else {
+            response = {
+                status:400,
+                message: 'Please provide an ID'
+            }
+        }
         return res.send(response)
     })
 
